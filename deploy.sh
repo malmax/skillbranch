@@ -2,6 +2,6 @@ NODE_ENV=production yarn run build &&
 cd ./build &&
 NODE_ENV=production yarn &&
 cd .. &&
-rsync -avz ./build/* s3:/projects/lsk/app &&
-ssh s3 'cd /projects/lsk && docker-compose stop && docker-compose up' &&
+rsync -avz -e 'ssh -p 30022' ./build/* $SERVER_URL:www/scaryshop.ru/app &&
+ssh -p 30022 $SERVER_URL 'cd www/scaryshop.ru && npm start' &&
 echo 'ok'
