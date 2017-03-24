@@ -1,6 +1,5 @@
 {
   "parser": "babel-eslint",
-  "extends": "airbnb",
   "globals": {
     "__SERVER__": true,
     "__CLIENT__": true,
@@ -14,8 +13,7 @@
   },
   "parserOptions": {
     "ecmaFeatures": {
-      "jsx": true,
-      "modules": true
+      "jsx": true
     }
   },
   "rules": {
@@ -31,6 +29,9 @@
     "guard-for-in": "off",
     "no-restricted-syntax": ["error", "WithStatement"],
     "react/forbid-prop-types": "off",
-    "import/no-extraneous-dependencies": "off"
+    "import/no-extraneous-depensdencies": "off",
+    "no-use-before-define": ["error", {
+      "functions": false,
+      "classes": false }]
   }
 }

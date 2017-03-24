@@ -1,4 +1,5 @@
 import React from 'react';
+
 import importcss from 'importcss';
 import { Grid, Row, Col, Nav, NavItem } from 'react-bootstrap';
 import { Card, CardBlock, CardTitle } from 'reactstrap';
@@ -21,7 +22,7 @@ export default class HomePage extends Component {
                   <Nav bsStyle="pills" stacked activeKey={1}>
                     <NavItem eventKey={1}>NavItem 1 content</NavItem>
                     <NavItem eventKey={2}>NavItem 2 content</NavItem>
-                    <NavItem eventKey={3}>NavItem 3 content</NavItem>
+                    <NavItem eventKey={3}>NavItem 3-before-define content</NavItem>
                   </Nav>
                 </CardBlock>
               </Card>
@@ -29,10 +30,11 @@ export default class HomePage extends Component {
             <Col xs={12} md={8}>
               <PostCard>
                 <PostCard.Head
-                  id={1}
-                  name="Вася"
-                  surname="Пупкин"
-                  date={new Date('2017-01-12')}
+                  _id={1}
+                  name="Максим"
+                  surname="Малахов"
+                  date={new Date('2016-01-12')}
+                  git="https://github.com/malmax/skillbranch"
                 />
               </PostCard>
             </Col>

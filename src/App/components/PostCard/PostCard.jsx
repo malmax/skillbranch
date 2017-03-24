@@ -1,9 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import { Card, CardBlock } from 'reactstrap';
+import { Card, CardBlock, Glyphicon } from 'reactstrap';
 import css from 'importcss';
 import moment from 'moment';
 import Avatar from '../Avatar';
 import Link from 'lsk-general/General/Link';
+import Github from 'react-icons/lib/fa/github';
 
 function PostCard(props) {
   return (
@@ -31,15 +32,17 @@ class Head extends Component {
     surname: PropTypes.string,
     date: PropTypes.any,
     avatar: PropTypes.string,
+    git: PropTypes.string
   }
   render() {
-    const { _id, name, surname, date, avatar } = this.props;
+    const { _id, name, surname, date, avatar, git } = this.props;
     return (
       <div styleName="card-head">
         <Avatar alt={`${name} ${surname}`} src={avatar} />
         <div styleName="card-head-info">
           <Link href={`/user/${_id}`}>{`${name} ${surname}`}</Link>
           <small>{moment(date, 'YYYYMMDD').locale('ru').fromNow()}</small>
+           <div><Github /> <a href={git}>{git}</a></div>
         </div>
       </div>
     );

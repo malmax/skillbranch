@@ -22,6 +22,17 @@ export default {
       ...require('./cabinet').default,
     },
     {
+      path: '/user/:id',
+      action({ id }) {
+        const route = {
+          title: `Пользователь ${id}`,
+          component: <ErrorPage siteTitle="Title">{`Малахов Максим`}</ErrorPage>,
+        };
+
+        return route;
+      },
+    },
+    {
       path: '*',
       action() {
         throw 'Not found';
