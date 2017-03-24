@@ -1,6 +1,0 @@
-[ignore]
-.*/build
-.*/config
-.*/tools
-.*/node_modules
-[include]
