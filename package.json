@@ -44,7 +44,6 @@
     "webpack-middleware": "1.5.1"
   },
   "scripts": {
-    "task1": "rm -rf ./dist && babel -d ./dist ./src && cp ./.env.example ./dist && node ./dist/task1",
-    "task2": "rm -rf ./dist && babel -d ./dist ./src && node ./dist/task2"
+    "start": "rm -rf ./dist && babel -d ./dist ./src && cp config.env ./dist/ && cp config2.env ./dist/ && node ./dist/index.js"
  }
 }
