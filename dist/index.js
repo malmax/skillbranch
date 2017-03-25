@@ -22,28 +22,44 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Parser = function () {
   function Parser() {
-    var path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '.';
-
     _classCallCheck(this, Parser);
 
-    if (!_fs2.default.existsSync(path)) {
-      throw global.console.error('not exist ' + path);
-    }
-
-    var data = [];
-
-    _fs2.default.readdirSync(path).filter(function (file) {
-      return (/\.env$/i.test(file)
-      );
-    }).forEach(function (file) {
-      var d = _fs2.default.readFileSync(_path2.default.join(path, file), 'utf8');
-      data.push(d);
-    });
-
-    this.data = data.join('\n');
+    this.data = '';
+    this.parsed = {};
   }
 
   _createClass(Parser, [{
+    key: 'readDir',
+    value: function readDir(path) {
+      this.data = '';
+      var data = [];
+
+      if (!_fs2.default.existsSync(path)) {
+        throw global.console.error('not exist ' + path);
+      }
+
+      _fs2.default.readdirSync(path).filter(function (file) {
+        return (/\.env$/i.test(file)
+        );
+      }).forEach(function (file) {
+        var d = _fs2.default.readFileSync(_path2.default.join(path, file), 'utf8');
+        data.push(d);
+      });
+
+      this.data = data.join('\n');
+      return this;
+    }
+  }, {
+    key: 'readFile',
+    value: function readFile(path) {
+      if (!_fs2.default.existsSync(path)) {
+        throw global.console.error('not exist ' + path);
+      }
+
+      this.data = _fs2.default.readFileSync(path, 'utf8');
+      return this;
+    }
+  }, {
     key: 'parse',
     value: function parse() {
       if (!/=/.test(this.data)) {
@@ -51,8 +67,11 @@ var Parser = function () {
       }
 
       var lines = _lodash2.default.split(this.data, '\n');
+
+      // почему-то выдает ошибку если сделать _.split.map
       var objs = _lodash2.default.map(lines, this.parseLine);
-      return _lodash2.default.merge.apply(_lodash2.default, [{}].concat(_toConsumableArray(objs)));
+      this.parsed = _lodash2.default.merge.apply(_lodash2.default, [{}].concat(_toConsumableArray(objs)));
+      return this.parsed;
     }
   }, {
     key: 'parseLine',
@@ -67,6 +86,13 @@ var Parser = function () {
   return Parser;
 }();
 
-var p = new Parser('.');
+var p = new Parser();
 
-console.log(p.parse());
+// Task 1
+global.console.log('Task1: parse config2.env', p.readFile('config2.env').parse());
+
+// Task 2
+global.console.log('Task2: read .env from .', p.readDir('.').parse());
+
+// Task 3
+global.console.log('Task 3: process.env + .env from . dir', Object.assign({}, process.env, p.readDir('.').parse()));

@@ -4,12 +4,18 @@ import Path from 'path';
 
 class Parser {
 
-  constructor(path = '.') {
+  constructor() {
+    this.data = '';
+    this.parsed = {};
+  }
+
+  readDir(path) {
+    this.data = '';
+    const data = [];
+
     if (!fs.existsSync(path)) {
       throw global.console.error(`not exist ${path}`);
     }
-
-    const data = [];
 
     fs.readdirSync(path)
       .filter(file => /\.env$/i.test(file))
@@ -19,7 +25,16 @@ class Parser {
       });
 
     this.data = data.join('\n');
-    this.parsed = {};
+    return this;
+  }
+
+  readFile(path) {
+    if (!fs.existsSync(path)) {
+      throw global.console.error(`not exist ${path}`);
+    }
+
+    this.data = fs.readFileSync(path, 'utf8');
+    return this;
   }
 
   parse() {
@@ -28,6 +43,8 @@ class Parser {
     }
 
     const lines = _.split(this.data, '\n');
+
+    // почему-то выдает ошибку если сделать _.split.map
     const objs = _.map(lines, this.parseLine);
     this.parsed = _.merge({}, ...objs);
     return this.parsed;
@@ -42,6 +59,14 @@ class Parser {
 
 }
 
-const p = new Parser('.');
+const p = new Parser();
 
-console.log(p.parse());
+// Task 1
+global.console.log('Task1: parse config2.env', p.readFile('config2.env').parse());
+
+// Task 2
+global.console.log('Task2: read .env from .', p.readDir('.').parse());
+
+// Task 3
+global.console.log('Task 3: process.env + .env from . dir',
+ Object.assign({}, process.env, p.readDir('.').parse()));
